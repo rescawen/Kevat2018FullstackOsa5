@@ -1,6 +1,9 @@
 import React from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
+import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -10,9 +13,9 @@ class App extends React.Component {
     this.state = {
       blogs: [],
       newBlog: '',
-      title:'',
-      author:'',
-      url:'',
+      title: '',
+      author: '',
+      url: '',
       showAll: true,
       error: null,
       username: '',
@@ -78,10 +81,14 @@ class App extends React.Component {
     }
   }
 
-  logout = async (event) => {
-    event.preventDefault()
-    window.localStorage.removeItem('loggedBlogappUser')
-    this.setState({ user:null })
+  logout = (event) => {
+
+    this.setState({ 
+      user: null
+     },
+     window.localStorage.clear()
+    )
+    
   }
 
   handleTitleChange = (event) => {
@@ -96,12 +103,8 @@ class App extends React.Component {
     this.setState({ url: event.target.value })
   }
 
-  handlePasswordChange = (event) => {
-    this.setState({ password: event.target.value })
-  }
-
-  handleUsernameChange = (event) => {
-    this.setState({ username: event.target.value })
+  handleBlogFieldChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   handleLoginFieldChange = (event) => {
@@ -117,83 +120,44 @@ class App extends React.Component {
   render() {
 
     const loginForm = () => (
-      <div>
-        <h2>Log in to application</h2>
-
-        <form onSubmit={this.login}>
-          <div>
-            username
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleUsernameChange}
-            />
-          </div>
-          <div>
-            password
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-            />
-          </div>
-          <button type="submit">login</button>
-        </form>
-      </div>
-    )
-
-    const blogForm = () => (
-      <div>
-        <h2>blogs</h2>
-
-        <p>{this.state.user.name} logged in</p>
-
-        
-        <button onSubmit={this.logout} type="submit">logout</button>
-        
-
-        <h3>create new</h3>
-
-        <form onSubmit={this.addBlog}>
-          <div>
-            title
-            <input
-              type="text"
-              name="title"
-              value={this.state.title}
-              onChange={this.handleTitleChange}
-            />
-          </div>
-          <div>
-            author
-            <input
-              type="text"
-              name="author"
-              value={this.state.author}
-              onChange={this.handleAuthorChange}
-            />
-          </div>
-          <div>
-            url
-            <input
-              type="text"
-              name="url"
-              value={this.state.url}
-              onChange={this.handleURLChange}
-            />
-          </div>
-          <button type="submit">create</button>
-        </form>
-
-        {this.state.blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
-      </div>
+      <Togglable buttonLabel="login">
+        <LoginForm
+          visible={this.state.visible}
+          username={this.state.username}
+          password={this.state.password}
+          handleChange={this.handleLoginFieldChange}
+          handleSubmit={this.login}
+        />
+      </Togglable>
     )
 
 
+    const blogBody = () => {
+
+      return (
+        <div>
+          <h2>blogs</h2>
+
+          <p>{this.state.user.name} logged in</p>
+
+          <button onClick={this.logout} type="submit">logout</button>
+
+          <h3>create new</h3>
+
+          <BlogForm
+            addBlog={this.addBlog}
+            title={this.state.title}
+            author={this.state.author}
+            url={this.state.url}
+            handleChange={this.handleBlogFieldChange}
+          />
+
+          {this.state.blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
+        </div>
+      )
+    }
 
     return (
       <div>
@@ -202,7 +166,7 @@ class App extends React.Component {
 
         {this.state.user === null && loginForm()}
 
-        {this.state.user !== null && blogForm()}
+        {this.state.user !== null && blogBody()}
 
       </div>
     );
