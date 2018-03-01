@@ -4,14 +4,18 @@ import SimpleBlog from './SimpleBlog'
 
 describe.only('<SimpleBlog />', () => {
     it('renders content', () => {
-      const note = {
-        content: 'Komponenttitestaus tapahtuu jestillä ja enzymellä',
-        important: true
+      const blog = {
+        title: 'koodihesus',
+        author: "arian",
+        likes: 5
       }
   
-      const noteComponent = shallow(<Note note={note} />)
-      const contentDiv = noteComponent.find('.content')
+      const blogComponent = shallow(<SimpleBlog blog={blog} />)
+      const contentDiv1 = blogComponent.find('.bloghead')
+      const contentDiv2 = blogComponent.find('.bloglike')
   
-      expect(contentDiv.text()).toContain(note.content)
+      expect(contentDiv1.text()).toContain(blog.title)
+      expect(contentDiv1.text()).toContain(blog.author)
+      expect(contentDiv2.text()).toContain(blog.likes)
     })
   })

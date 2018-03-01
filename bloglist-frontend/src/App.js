@@ -26,8 +26,17 @@ class App extends React.Component {
 
 
   componentDidMount() {
-    blogService.getAll().then(blogs =>
-      this.setState({ blogs })
+    blogService.getAll().then(blogs => {
+      var sortedBlogs = blogs.sort(function (a, b) {
+        return a.likes < b.likes;
+      });
+
+      console.log(sortedBlogs)
+
+      this.setState({
+        blogs: sortedBlogs
+      })
+    }
     )
 
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -83,12 +92,12 @@ class App extends React.Component {
 
   logout = (event) => {
 
-    this.setState({ 
+    this.setState({
       user: null
-     },
-     window.localStorage.clear()
+    },
+      window.localStorage.clear()
     )
-    
+
   }
 
   handleTitleChange = (event) => {
@@ -153,7 +162,7 @@ class App extends React.Component {
           />
 
           {this.state.blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog}/>
           )}
         </div>
       )
