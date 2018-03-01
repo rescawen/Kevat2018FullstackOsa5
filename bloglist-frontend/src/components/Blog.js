@@ -38,17 +38,17 @@ class Blog extends React.Component {
             })
         }
 
-        deleteBlog = (event) => {
-            event.preventDefault()
-            
-            blogService
-                .update(this.props.blog.id, blogObject)
-                .then(response => {
-                    this.setState({
-                        likes: response.likes
-                    })
-                })
-            }
+        // deleteBlog = (event) => {
+        //     event.preventDefault()
+
+        //     blogService
+        //         .update(this.props.blog.id, blogObject)
+        //         .then(response => {
+        //             this.setState({
+        //                 likes: response.likes
+        //             })
+        //         })
+        //     }
 
     render() {
 
