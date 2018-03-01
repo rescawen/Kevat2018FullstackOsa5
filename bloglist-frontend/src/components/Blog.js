@@ -26,7 +26,7 @@ class Blog extends React.Component {
             author: this.state.author,
             url: this.state.url,
             likes: this.state.likes + 1,
-            
+
         }
 
         blogService
@@ -35,20 +35,20 @@ class Blog extends React.Component {
                 this.setState({
                     likes: response.likes
                 })
-            }
+            })
+        }
 
-            )
-        //   .then(newBlog => {
-        //     this.setState({
-        //       blogs: this.state.blogs.concat(newBlog),
-        //       newBlog: '',
-        //       error: 'a new blog ' + this.state.title + ' by ' + this.state.author + ' added'
-        //     })
-        //     setTimeout(() => {
-        //       this.setState({ error: null })
-        //     }, 5000)
-        //   })
-    }
+        deleteBlog = (event) => {
+            event.preventDefault()
+            
+            blogService
+                .update(this.props.blog.id, blogObject)
+                .then(response => {
+                    this.setState({
+                        likes: response.likes
+                    })
+                })
+            }
 
     render() {
 
@@ -60,43 +60,24 @@ class Blog extends React.Component {
             marginBottom: 5
         }
 
-
         const hideWhenVisible = { display: this.state.visible ? 'none' : '' }
         const showWhenVisible = { display: this.state.visible ? '' : 'none' }
 
         return (
-
-            
-
             <div style={blogStyle}>
                 <div onClick={this.toggleVisibility}>
                     {this.state.title} {this.state.author}
                 </div>
                 <div style={showWhenVisible}>
-                    <br/>
+                    <br />
                     {this.state.url}
                     <p> {!!this.state.likes ? this.state.likes : 0} likes <button onClick={this.updateBlog}>likes</button></p>
                     <p> added by {this.state.username} </p>
+                    <button onClick={this.deleteBlog}>delete</button>
                 </div>
             </div>
         )
     }
 }
-
-
-
-
-// const Blog = ({ blog }) => (
-//   <div>
-
-
-//     {/* {blog.title} {blog.author} */}
-
-
-
-
-
-//   </div>
-// )
 
 export default Blog

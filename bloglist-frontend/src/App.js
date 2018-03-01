@@ -160,6 +160,8 @@ class App extends React.Component {
             url={this.state.url}
             handleChange={this.handleBlogFieldChange}
           />
+          
+          <br/>
 
           {this.state.blogs.map(blog =>
             <Blog key={blog.id} blog={blog}/>
