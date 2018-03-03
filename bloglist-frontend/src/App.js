@@ -171,7 +171,7 @@ class App extends React.Component {
     }
 
     return (
-      <div>
+      <div className="mainbody">
 
         <Notification message={this.state.error} />
 
