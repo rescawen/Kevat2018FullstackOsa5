@@ -24,4 +24,21 @@ describe('<App />', () => {
     })
   })
 
+  describe('when user is logged in', () => {
+    beforeEach(() => {
+      const user = {
+        username: "rasd",
+        password: "salainen"
+      }
+      
+      localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+    })
+
+    it('only login form is rendered', () => {
+      app.update()
+      const mainbody = app.find('.mainbody')
+      expect(mainbody.find('.toggleOff').exists()).toEqual(true)
+    })
+  })
+
 })
