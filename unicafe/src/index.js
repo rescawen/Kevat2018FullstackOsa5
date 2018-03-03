@@ -52,10 +52,24 @@ const Statistiikka = (props) => {
 }
 
 class App extends React.Component {
+
+    constructor(props) {
+    super(props);
+
+    store.subscribe(() => {
+      this.setState({
+        good: store.getState().good,
+        ok: store.getState().ok,
+        bad: store.getState().bad
+      });
+    });
+  }
+
   klik = (nappi) => () => {
     store.dispatch({type: nappi})
     console.log(store.getState())
   }
+
 
   render() {
     return (
