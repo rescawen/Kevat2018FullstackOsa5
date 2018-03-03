@@ -3,19 +3,32 @@ import { shallow } from 'enzyme'
 import Blog from './Blog'
 
 describe.only('Blog />', () => {
-    it('renders content', () => {
+    it('write something smart', () => {
       const blog = {
+        user: {
+          username: 'gettingtiredofthis'
+        },
         title: 'koodihesus',
         author: "arian",
-        likes: 5
+        likes: 5,
+        url: 'www.mockurl.com'
       }
   
-      const blogComponent = shallow(<SimpleBlog blog={blog} />)
-      const contentDiv1 = blogComponent.find('.bloghead')
-      const contentDiv2 = blogComponent.find('.bloglike')
+      const blogComponent = shallow(<Blog blog={blog} />)
+      const header= blogComponent.find('.header')
+      const hiddenbody= blogComponent.find('.body')
   
-      expect(contentDiv1.text()).toContain(blog.title)
-      expect(contentDiv1.text()).toContain(blog.author)
-      expect(contentDiv2.text()).toContain(blog.likes)
+      expect(header.text()).toContain(blog.title)
+      expect(header.text()).toContain(blog.author)
+      expect(hiddenbody.getElement().props.style).toEqual({ display: 'none' })
+
+      header.simulate('click')
+
+      const exposedbody= blogComponent.find('.body')
+      expect(exposedbody.getElement().props.style).toEqual({ display: '' })
+      
+
+
+      
     })
   })

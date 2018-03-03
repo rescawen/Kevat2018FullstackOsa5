@@ -67,10 +67,10 @@ class Blog extends React.Component {
 
         return (
             <div style={blogStyle}>
-                <div onClick={this.toggleVisibility}>
+                <div className="header" onClick={this.toggleVisibility}>
                     {this.state.title} {this.state.author}
                 </div>
-                <div style={showWhenVisible}>
+                <div className="body" style={showWhenVisible}>
                     <br />
                     {this.state.url}
                     <p> {!!this.state.likes ? this.state.likes : 0} likes <button onClick={this.updateBlog}>likes</button></p>
