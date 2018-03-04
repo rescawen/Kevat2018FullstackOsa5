@@ -7,7 +7,11 @@ const store = createStore(counterReducer)
 
 const Statistiikka = (props) => {
 
-  const palautteita = 1
+  var palautteita = 0
+
+  if(store.getState().good != 0 ||store.getState().ok != 0||store.getState().bad != 0 ) {
+    palautteita = 1
+  }
 
   if (palautteita === 0) {
     return (
@@ -36,12 +40,11 @@ const Statistiikka = (props) => {
             <td>{store.getState().bad}</td>
           </tr>
           <tr>
-            <td>keskiarvo</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>positiivisia</td>
-            <td></td>
+            <td>hyviä</td>
+            <td>{
+               Math.round((store.getState().good / (store.getState().good + store.getState().ok + store.getState().bad))  * 100) 
+              
+              }%</td>
           </tr>
         </tbody>
       </table>
@@ -60,7 +63,9 @@ class App extends React.Component {
       this.setState({
         good: store.getState().good,
         ok: store.getState().ok,
-        bad: store.getState().bad
+        bad: store.getState().bad,
+        
+        
       });
     });
   }
@@ -72,13 +77,14 @@ class App extends React.Component {
 
 
   render() {
+    
     return (
       <div>
         <h2>anna palautetta</h2>
         <button onClick={this.klik('GOOD')}>hyvä</button>
         <button onClick={this.klik('OK')}>neutraali</button>
         <button onClick={this.klik('BAD')}>huono</button>
-        <Statistiikka zero={this.klik('ZERO')} />
+        <Statistiikka zero={this.klik('ZERO')} procent={this.procent} />
       </div>
     )
   }
