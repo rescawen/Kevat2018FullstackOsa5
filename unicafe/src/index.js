@@ -9,7 +9,7 @@ const Statistiikka = (props) => {
 
   var palautteita = 0
 
-  if(store.getState().good != 0 ||store.getState().ok != 0||store.getState().bad != 0 ) {
+  if(store.getState().good !== 0 ||store.getState().ok !== 0||store.getState().bad !== 0 ) {
     palautteita = 1
   }
 
